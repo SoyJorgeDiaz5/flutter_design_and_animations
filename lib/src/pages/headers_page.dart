@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/header_circular.dart';
+import 'package:design_and_animations/src/widgets/header_waves_gradient.dart';
 
 class HeadersPage extends StatelessWidget {
   const HeadersPage({Key? key}) : super(key: key);
@@ -8,7 +8,7 @@ class HeadersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: HeaderCircular(),
+      body: HeaderWavesGradient(),
     );
   }
 }
