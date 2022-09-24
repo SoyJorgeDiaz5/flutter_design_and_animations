@@ -38,14 +38,23 @@ class _SquareAnimatedState extends State<SquareAnimated>
     rotation = Tween(begin: 0.0, end: 2.0 * math.pi).animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Curves.easeOutCubic,
+        curve: Curves.easeOut,
       ),
     );
 
     opacity = Tween(
       begin: 0.1,
       end: 1.0,
-    ).animate(animationController);
+    ).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: const Interval(
+          0,
+          0.5,
+          curve: Curves.easeOut,
+        ),
+      ),
+    );
 
     animationController.addListener(() {
       if (animationController.status == AnimationStatus.completed) {
