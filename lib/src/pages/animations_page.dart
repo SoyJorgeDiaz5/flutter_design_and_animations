@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class AnimationsPage extends StatelessWidget {
   const AnimationsPage({Key? key}) : super(key: key);
@@ -30,10 +31,16 @@ class _SquareAnimatedState extends State<SquareAnimated>
     animationController = AnimationController(
         vsync: this,
         duration: const Duration(
-          milliseconds: 1000,
+          milliseconds: 2000,
         ));
 
-    rotation = Tween(begin: 0.0, end: 4.0).animate(animationController);
+    rotation = Tween(begin: 0.0, end: 2.0 * math.pi).animate(animationController);
+
+    animationController.addListener(() {
+      if (animationController.status == AnimationStatus.completed) {
+        animationController.reverse();
+      }
+    });
 
     super.initState();
   }
