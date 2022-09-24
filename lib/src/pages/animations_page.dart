@@ -34,11 +34,16 @@ class _SquareAnimatedState extends State<SquareAnimated>
           milliseconds: 2000,
         ));
 
-    rotation = Tween(begin: 0.0, end: 2.0 * math.pi).animate(animationController);
+    rotation = Tween(begin: 0.0, end: 2.0 * math.pi).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.decelerate,
+      ),
+    );
 
     animationController.addListener(() {
       if (animationController.status == AnimationStatus.completed) {
-        animationController.reverse();
+        animationController.reset();
       }
     });
 
