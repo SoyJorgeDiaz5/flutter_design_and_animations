@@ -26,6 +26,7 @@ class _SquareAnimatedState extends State<SquareAnimated>
   late AnimationController animationController;
   late Animation<double> rotation;
   late Animation<double> opacity;
+  late Animation<double> rightMove;
 
   @override
   void initState() {
@@ -56,6 +57,14 @@ class _SquareAnimatedState extends State<SquareAnimated>
       ),
     );
 
+    rightMove = Tween(
+      begin: 0.0,
+      end: 150.0,
+    ).animate(CurvedAnimation(
+      parent: animationController,
+      curve: Curves.easeOut,
+    ));
+
     animationController.addListener(() {
       if (animationController.status == AnimationStatus.completed) {
         animationController.reset();
@@ -80,11 +89,14 @@ class _SquareAnimatedState extends State<SquareAnimated>
       animation: animationController,
       child: _Square(),
       builder: (context, childSquare) {
-        return Transform.rotate(
-          angle: rotation.value,
-          child: Opacity(
-            opacity: opacity.value,
-            child: childSquare,
+        return Transform.translate(
+          offset: Offset(rightMove.value, 0),
+          child: Transform.rotate(
+            angle: rotation.value,
+            child: Opacity(
+              opacity: opacity.value,
+              child: childSquare,
+            ),
           ),
         );
       },
