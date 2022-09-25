@@ -6,6 +6,10 @@ You can check the sections by switching branches
 
 This section contains widgets for displaying Square and Circular backgrounds, as well as Curve, Diagonal, Spike, Triangular and Waves backgrounds created with a Custom Painter
 
+## [Section 2 - Custom Animations](https://github.com/SoyJorgeDiaz5/flutter_design_and_animations/tree/2-custom-animations)
+
+This section contains an example to use Transform widget to rotate, translate and scale, as well as a challenge where a square widget must be translated. 
+
 
 ---
 
