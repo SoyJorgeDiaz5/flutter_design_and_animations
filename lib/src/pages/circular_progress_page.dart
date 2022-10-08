@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -9,8 +10,34 @@ class CircularProgressPage extends StatefulWidget {
   State<CircularProgressPage> createState() => _CircularProgressPageState();
 }
 
-class _CircularProgressPageState extends State<CircularProgressPage> {
-  double percentage = 10;
+class _CircularProgressPageState extends State<CircularProgressPage>
+    with SingleTickerProviderStateMixin {
+  double percentage = 0;
+  double newPercentage = 0;
+
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+
+    controller.addListener(() {
+      setState(() {
+        percentage = lerpDouble(percentage, newPercentage, controller.value)!;
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +47,16 @@ class _CircularProgressPageState extends State<CircularProgressPage> {
         backgroundColor: Colors.pink,
         onPressed: () {
           setState(() {
-            percentage += 10;
+            percentage = newPercentage;
 
-            if (percentage > 100) {
+            newPercentage += 10;
+
+            if (newPercentage > 100) {
+              newPercentage = 0;
               percentage = 0;
             }
+
+            controller.forward(from: 0);
           });
         },
       ),
