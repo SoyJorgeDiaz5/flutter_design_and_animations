@@ -85,6 +85,18 @@ class _MyRadialProgress extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    
+    final Rect rect = Rect.fromCircle(
+      center: const Offset(0, 0), 
+      radius: 180
+    );
+
+    const Gradient gradient = LinearGradient(colors: [
+      Color(0xffc012ff),
+      Color(0xff6d05e8),
+      Colors.red,
+    ]);
+
     // Circle completed
     final paint = Paint()
       ..strokeWidth = backStrokeSize
@@ -99,7 +111,8 @@ class _MyRadialProgress extends CustomPainter {
     // Arch
     final paintArch = Paint()
       ..strokeWidth = mainStrokeSize
-      ..color = primaryColor
+      // ..color = primaryColor
+      ..shader = gradient.createShader(rect)
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
