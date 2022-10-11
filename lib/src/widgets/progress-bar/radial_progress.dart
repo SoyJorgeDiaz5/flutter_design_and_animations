@@ -100,6 +100,7 @@ class _MyRadialProgress extends CustomPainter {
     final paintArch = Paint()
       ..strokeWidth = mainStrokeSize
       ..color = primaryColor
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     double arcAngle = 2 * pi * (percentage / 100);
@@ -109,6 +110,21 @@ class _MyRadialProgress extends CustomPainter {
       arcAngle,
       false,
       paintArch,
+    );
+
+    // Circle value reference
+    final offset = Offset(
+      center.dx + radius * cos(-pi / 2 + arcAngle),
+      center.dy + radius * sin(-pi / 2 + arcAngle),
+    );
+
+    canvas.drawCircle(
+      offset,
+      8,
+      Paint()
+        ..strokeWidth = 5
+        ..color = Colors.white
+        ..style = PaintingStyle.fill,
     );
   }
 
