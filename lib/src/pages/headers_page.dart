@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:design_and_animations/src/widgets/header_waves_gradient.dart';
+import '../widgets/custom-animations/header_waves_gradient.dart';
 
 class HeadersPage extends StatelessWidget {
   const HeadersPage({Key? key}) : super(key: key);
