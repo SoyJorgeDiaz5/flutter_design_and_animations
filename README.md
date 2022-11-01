@@ -24,4 +24,4 @@ This section contains an example to use Animated Custom Painter and build a Prog
 
 * Course available on [Udemy](https://www.udemy.com/course/flutter-disenos-y-animaciones/)
 
-* Autor: [Fernando Herrera](https://github.com/Klerith)
+* Author: [Fernando Herrera](https://github.com/Klerith)
