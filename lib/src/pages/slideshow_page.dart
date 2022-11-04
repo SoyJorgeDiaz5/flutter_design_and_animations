@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
+import 'package:design_and_animations/src/models/slider-model.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SlideShowPage extends StatelessWidget {
@@ -6,15 +10,18 @@ class SlideShowPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: const [
-            Expanded(
-              child: _Slides(),
-            ),
-            _Dots(),
-          ],
+    return ChangeNotifierProvider(
+      create: (context) => SliderModel(),
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            children: const [
+              Expanded(
+                child: _Slides(),
+              ),
+              _Dots(),
+            ],
+          ),
         ),
       ),
     );
@@ -51,12 +58,14 @@ class _Dot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pageViewIndex = Provider.of<SliderModel>(context).currentPage;
+
     return Container(
       width: 12,
       height: 12,
       margin: const EdgeInsets.symmetric(horizontal: 5),
-      decoration: const BoxDecoration(
-        color: Colors.grey,
+      decoration: BoxDecoration(
+        color: (pageViewIndex == index) ? Colors.purple : Colors.grey,
         shape: BoxShape.circle,
       ),
     );
@@ -72,13 +81,15 @@ class _Slides extends StatefulWidget {
 
 class _SlidesState extends State<_Slides> {
   final pageViewController = PageController();
+  final double defaultPagePosition = 0;
 
   @override
   void initState() {
     super.initState();
 
     pageViewController.addListener(() {
-      print('Current page: ${pageViewController.page}');
+      Provider.of<SliderModel>(context, listen: false).currentPage =
+          pageViewController.page ?? defaultPagePosition;
     });
   }
 
