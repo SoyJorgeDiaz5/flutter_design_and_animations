@@ -3,10 +3,13 @@ import 'package:provider/provider.dart';
 
 import '../models/slider-model.dart';
 
-import 'package:flutter_svg/svg.dart';
-
 class Slideshow extends StatelessWidget {
-  const Slideshow({Key? key}) : super(key: key);
+  const Slideshow({
+    Key? key,
+    required this.slides,
+  }) : super(key: key);
+
+  final List<Widget> slides;
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +17,13 @@ class Slideshow extends StatelessWidget {
       create: (context) => SliderModel(),
       child: Center(
         child: Column(
-          children: const [
+          children: [
             Expanded(
-              child: _Slides(),
+              child: _Slides(
+                slides: slides,
+              ),
             ),
-            _Dots(),
+            const _Dots(),
           ],
         ),
       ),
@@ -74,7 +79,12 @@ class _Dot extends StatelessWidget {
 }
 
 class _Slides extends StatefulWidget {
-  const _Slides({Key? key}) : super(key: key);
+  const _Slides({
+    Key? key,
+    required this.slides,
+  }) : super(key: key);
+
+  final List<Widget> slides;
 
   @override
   State<_Slides> createState() => _SlidesState();
@@ -104,11 +114,7 @@ class _SlidesState extends State<_Slides> {
   Widget build(BuildContext context) {
     return PageView(
       controller: pageViewController,
-      children: const [
-        _Slide(svg: 'assets/svg/mobile_feed.svg'),
-        _Slide(svg: 'assets/svg/mobile_ux.svg'),
-        _Slide(svg: 'assets/svg/online_world.svg'),
-      ],
+      children: widget.slides.map((item) => _Slide(slide: item)).toList(),
     );
   }
 }
@@ -116,10 +122,10 @@ class _SlidesState extends State<_Slides> {
 class _Slide extends StatelessWidget {
   const _Slide({
     Key? key,
-    required this.svg,
+    required this.slide,
   }) : super(key: key);
 
-  final String svg;
+  final Widget slide;
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +133,7 @@ class _Slide extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       padding: const EdgeInsets.all(30),
-      child: SvgPicture.asset(svg),
+      child: slide,
     );
   }
 }
