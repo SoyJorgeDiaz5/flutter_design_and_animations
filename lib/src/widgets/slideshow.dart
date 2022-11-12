@@ -23,7 +23,7 @@ class Slideshow extends StatelessWidget {
                 slides: slides,
               ),
             ),
-            const _Dots(),
+            _Dots(quantity: slides.length),
           ],
         ),
       ),
@@ -32,7 +32,9 @@ class Slideshow extends StatelessWidget {
 }
 
 class _Dots extends StatelessWidget {
-  const _Dots({Key? key}) : super(key: key);
+  final int quantity;
+
+  const _Dots({Key? key, required this.quantity}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +43,12 @@ class _Dots extends StatelessWidget {
       height: 70,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          _Dot(index: 0),
-          _Dot(index: 1),
-          _Dot(index: 2),
-        ],
+        children: List.generate(
+          quantity,
+          (index) => _Dot(
+            index: index,
+          ),
+        ),
       ),
     );
   }
