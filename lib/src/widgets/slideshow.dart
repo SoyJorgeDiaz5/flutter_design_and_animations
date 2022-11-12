@@ -3,28 +3,49 @@ import 'package:provider/provider.dart';
 
 import '../models/slider-model.dart';
 
+enum DotsPosition { up, down }
+
 class Slideshow extends StatelessWidget {
+  final List<Widget> slides;
+  final DotsPosition dotsPosition;
+  final Color primaryColor;
+  final Color backgroundColor;
+
   const Slideshow({
     Key? key,
     required this.slides,
+    this.dotsPosition = DotsPosition.down,
+    this.primaryColor = Colors.purple,
+    this.backgroundColor = Colors.grey,
   }) : super(key: key);
-
-  final List<Widget> slides;
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SliderModel(),
-      child: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: _Slides(
-                slides: slides,
+    return SafeArea(
+      child: ChangeNotifierProvider(
+        create: (context) => SliderModel(),
+        child: Center(
+          child: Column(
+            children: [
+              if (dotsPosition == DotsPosition.up)
+                _Dots(
+                  quantity: slides.length,
+                  primaryColor: primaryColor,
+                  backgroundColor: backgroundColor,
+                ),
+              Expanded(
+                child: _Slides(
+                  slides: slides,
+                ),
               ),
-            ),
-            _Dots(quantity: slides.length),
-          ],
+              if (dotsPosition == DotsPosition.down)
+                _Dots(
+                  quantity: slides.length,
+                  primaryColor: primaryColor,
+                  backgroundColor: backgroundColor,
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -33,8 +54,15 @@ class Slideshow extends StatelessWidget {
 
 class _Dots extends StatelessWidget {
   final int quantity;
+  final Color primaryColor;
+  final Color backgroundColor;
 
-  const _Dots({Key? key, required this.quantity}) : super(key: key);
+  const _Dots({
+    Key? key,
+    required this.quantity,
+    required this.primaryColor,
+    required this.backgroundColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +75,8 @@ class _Dots extends StatelessWidget {
           quantity,
           (index) => _Dot(
             index: index,
+            primaryColor: primaryColor,
+            backgroundColor: backgroundColor,
           ),
         ),
       ),
@@ -56,10 +86,14 @@ class _Dots extends StatelessWidget {
 
 class _Dot extends StatelessWidget {
   final int index;
+  final Color primaryColor;
+  final Color backgroundColor;
 
   const _Dot({
     Key? key,
     required this.index,
+    required this.primaryColor,
+    required this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -73,8 +107,8 @@ class _Dot extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         color: (pageViewIndex >= index - 0.5 && pageViewIndex < index + 0.5)
-            ? Colors.purple
-            : Colors.grey,
+            ? primaryColor
+            : backgroundColor,
         shape: BoxShape.circle,
       ),
     );
